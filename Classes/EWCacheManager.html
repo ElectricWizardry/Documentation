@@ -6,7 +6,7 @@
 		<meta id="xcode-display" name="xcode-display" content="render"/>
 		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
 		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
-		<meta name="generator" content="appledoc 2.2 (build 961)" />
+		<meta name="generator" content="appledoc 2.2 (build 963)" />
 	</head>
 	<body>
 		<header id="top_header">
@@ -50,7 +50,7 @@
 	
 	<option value="//api/name/deleteFileInCache:">&nbsp;&nbsp;&nbsp;&nbsp;- deleteFileInCache:</option>
 	
-	<option value="//api/name/downloadFileWithRequest:filename:success:">&nbsp;&nbsp;&nbsp;&nbsp;- downloadFileWithRequest:filename:success:</option>
+	<option value="//api/name/downloadFileWithRequest:filename:success:failure:">&nbsp;&nbsp;&nbsp;&nbsp;- downloadFileWithRequest:filename:success:failure:</option>
 	
 	<option value="//api/name/hasFileInCache:">&nbsp;&nbsp;&nbsp;&nbsp;- hasFileInCache:</option>
 	
@@ -100,7 +100,7 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/deleteFileInCache:">deleteFileInCache:</a></span></li>
 	
-	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/downloadFileWithRequest:filename:success:">downloadFileWithRequest:filename:success:</a></span></li>
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/downloadFileWithRequest:filename:success:failure:">downloadFileWithRequest:filename:success:failure:</a></span></li>
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/hasFileInCache:">hasFileInCache:</a></span></li>
 	
@@ -205,7 +205,7 @@ with files stored in the app&rsquo;s application support directory.</p>
 	
 </li><li>
 	<span class="tooltip">
-		<code><a href="#//api/name/downloadFileWithRequest:filename:success:">&ndash;&nbsp;downloadFileWithRequest:filename:success:</a></code>
+		<code><a href="#//api/name/downloadFileWithRequest:filename:success:failure:">&ndash;&nbsp;downloadFileWithRequest:filename:success:failure:</a></code>
 	</span>
 	
 	
@@ -321,18 +321,19 @@ with files stored in the app&rsquo;s application support directory.</p>
 </div>
 						
 						<div class="section-method">
-	<a name="//api/name/downloadFileWithRequest:filename:success:" title="downloadFileWithRequest:filename:success:"></a>
-	<h3 class="subsubtitle method-title">downloadFileWithRequest:filename:success:</h3>
+	<a name="//api/name/downloadFileWithRequest:filename:success:failure:" title="downloadFileWithRequest:filename:success:failure:"></a>
+	<h3 class="subsubtitle method-title">downloadFileWithRequest:filename:success:failure:</h3>
 	
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Description</p>
+		<p>Initiates a download request with the specified request and filename,
+executing success() and failure() as appropriate, if defined.</p>
 	</div>		
 	
     
 
-	<div class="method-subsection method-declaration"><code>- (void)downloadFileWithRequest:(NSURLRequest *)<em>request</em> filename:(NSString *)<em>filename</em> success:(void ( ^ ) ( AFHTTPRequestOperation *operation , id responseObject ))<em>success</em></code></div>
+	<div class="method-subsection method-declaration"><code>- (void)downloadFileWithRequest:(NSURLRequest *)<em>request</em> filename:(NSString *)<em>filename</em> success:(void ( ^ ) ( AFHTTPRequestOperation *operation , id responseObject ))<em>success</em> failure:(void ( ^ ) ( AFHTTPRequestOperation *operation , NSError *error ))<em>failure</em></code></div>
 
     
 	
@@ -341,17 +342,24 @@ with files stored in the app&rsquo;s application support directory.</p>
 		
 		<dl class="argument-def parameter-def">
 			<dt><em>request</em></dt>
-			<dd><p>request description</p></dd>
+			<dd><p>The URL request to make.</p></dd>
 		</dl>
 		
 		<dl class="argument-def parameter-def">
 			<dt><em>filename</em></dt>
-			<dd><p>filename description</p></dd>
+			<dd><p>The filename where the data should be downloaded.</p></dd>
 		</dl>
 		
 		<dl class="argument-def parameter-def">
 			<dt><em>success</em></dt>
-			<dd><p>success description</p></dd>
+			<dd><p>The block to execute upon sucessfully downloading the
+requested file.</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>failure</em></dt>
+			<dd><p>The block to execute upon failure (lost connection, data
+corruption, IO error, etc).</p></dd>
 		</dl>
 		
 	</div>
@@ -434,7 +442,7 @@ with files stored in the app&rsquo;s application support directory.</p>
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Description</p>
+		<p>Returns the name of the file currently being downloaded.</p>
 	</div>		
 	
     
@@ -447,7 +455,7 @@ with files stored in the app&rsquo;s application support directory.</p>
 	
 	<div class="method-subsection return">
 		<h4 class="method-subtitle parameter-title">Return Value</h4>
-		<p>return value description</p>
+		<p>The filename.</p>
 	</div>
 	
 	
@@ -575,9 +583,9 @@ with files stored in the app&rsquo;s application support directory.</p>
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2014 Electric Wizardry, LLC. All rights reserved. (Last updated: 2014-03-14)</span><br />
+						<p><span class="copyright">&copy; 2014 Electric Wizardry, LLC. All rights reserved. (Last updated: 2014-04-24)</span><br />
 						
-						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 961)</a>.</span></p>
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2 (build 963)</a>.</span></p>
 						
 					</div>
 				</div>
