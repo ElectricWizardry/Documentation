@@ -31,11 +31,14 @@
  */
 
 #import "EWCacheManager.h"
-#import <AFNetworking/AFHTTPClient.h>
+#import <AFNetworking/AFNetworking.h>
 #import <AFNetworking/AFHTTPRequestOperation.h>
-#import "NSFileManager+DirectoryLocations.h"
+
+typedef NS_ENUM(NSInteger,
+                EWCacheManagerErrorCodes) {EWConnectionLostError = 333};
 
 @implementation EWCacheManager
+@synthesize baseURL = _baseURL;
 @synthesize fileProgress = _fileProgress;
 @synthesize queueProgress = _queueProgress;
 
@@ -48,7 +51,8 @@
 
 - (id)init {
   if (self = [super init]) {
-    path = [[NSFileManager defaultManager] applicationSupportDirectory];
+    path = [NSSearchPathForDirectoriesInDomains(
+                NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 
     _fileProgress = 0.0f;
     _requestedFilesCount = 0;
@@ -59,7 +63,9 @@
 - (void)downloadFileWithRequest:(NSURLRequest *)request
                        filename:(NSString *)filename
                         success:(void (^)(AFHTTPRequestOperation *operation,
-                                          id responseObject))success {
+                                          id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation,
+                                          NSError *error))failure {
   dispatch_async(dispatch_get_main_queue(), ^{
     self.requestedFilesCount++;
     AFHTTPRequestOperation *operation =
@@ -95,7 +101,7 @@
                                          error:error];
     }];
 
-    [self.downloadClient enqueueHTTPRequestOperation:operation];
+    [self.downloadClient.operationQueue addOperation:operation];
   });
 }
 
@@ -137,29 +143,24 @@
   _requestedFilesCount = requestedFilesCount;
 }
 
-@synthesize baseURL = _baseURL;
-- (void)setBaseURL:(NSURL *)baseURL {
-  _baseURL = baseURL;
-
-  _downloadClient = [[AFHTTPClient alloc] initWithBaseURL:_baseURL];
-  [_downloadClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
-  [_downloadClient.operationQueue setMaxConcurrentOperationCount:1];
-}
-
 @synthesize downloadClient = _downloadClient;
-- (AFHTTPClient *)downloadClient {
+- (AFHTTPRequestOperationManager *)downloadClient {
   NSAssert(_baseURL, @"No base URL set.");
+
+  if (!_downloadClient) {
+    _downloadClient =
+        [[AFHTTPRequestOperationManager alloc] initWithBaseURL:_baseURL];
+    [_downloadClient.operationQueue setMaxConcurrentOperationCount:1];
+  }
 
   return _downloadClient;
 }
 
 @synthesize requestedFilesCount = _requestedFilesCount;
 - (NSUInteger)requestedFilesCount {
-  if (self.downloadClient.operationQueue.operationCount > 0) {
-    return _requestedFilesCount;
-  }
-
-  return 0;
+  return (self.downloadClient.operationQueue.operationCount > 0)
+             ? _requestedFilesCount
+             : 0;
 }
 
 - (NSString *)nameOfFileCurrentlyDownloading {

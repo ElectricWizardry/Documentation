@@ -32,8 +32,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class AFHTTPClient;
 @class AFHTTPRequestOperation;
+@class AFHTTPRequestOperationManager;
 
 @class EWCacheManager;
 @protocol EWCacheManagerDelegate
@@ -58,7 +58,7 @@
 
 @property(nonatomic, weak) id<EWCacheManagerDelegate> delegate;
 
-@property(nonatomic, strong) AFHTTPClient *downloadClient;
+@property(nonatomic, strong) AFHTTPRequestOperationManager *downloadClient;
 @property(nonatomic, strong) NSURL *baseURL;
 
 @property(readonly) float fileProgress;
@@ -118,7 +118,9 @@
 - (void)downloadFileWithRequest:(NSURLRequest *)request
                        filename:(NSString *)filename
                         success:(void (^)(AFHTTPRequestOperation *operation,
-                                          id responseObject))success;
+                                          id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation,
+                                          NSError *error))failure;
 
 /**
  *  Description
